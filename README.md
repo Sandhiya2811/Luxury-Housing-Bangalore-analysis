@@ -62,92 +62,106 @@
 
 ### Step 5: Power BI — Visualization and Insights
   #### 1. Market Trends
-    #### How we built it:
+  How we built it:
     •	Added Line Chart.
     •	X-axis: Quarter_Number or Year_Quarter.
-    •	Y-axis: Booking Count (sum of Booking_Status).
+    •	Y-axis: Booking Count (count of Booking_Status).
     •	Legend: Micro_Market.
-    #### Insight:
+  Insight:
     •	Some micro-markets show steady growth in bookings, while others fluctuate.
     •	Helps identify booming areas quarter by quarter.
   
   #### 2. Builder Performance
-    #### How we built it:
-    •	Added Bar Chart or Table.
-    •	Fields: Developer_Name, Sum(Ticket_Price_Cr), Avg(Ticket_Price_Cr).
-    #### Insight:
+  How we built it:
+    •	Added Bar Chart 
+    •	X-axis: Sum(Ticket_Price_Cr), Avg(Ticket_Price_Cr).
+    •	Y-axis: Developer_Name
+  Insight:
     •	Shows which builders have the highest sales revenue.
     •	Comparison of revenue vs average ticket size highlights premium vs mid-range builders.
   
   #### 3. Amenity Impact
-    #### How we built it:
+  How we built it:
     •	Added Scatter Plot.
     •	X-axis: Amenity_Score.
-    •	Y-axis: Booking Conversion Rate (successful bookings / total listings).
+    •	Y-axis: Booking Conversion Rate (successful bookings).
+    • Legend: Developer_Name
     •	Bubble Size: Project Count.
-    #### Insight:
+  DAX Calculation:
+    Project_Count = DISTINCTCOUNT('public luxury_house_data'[Project_Name])
+  Insight:
     •	Higher amenity scores generally improve booking chances.
     •	Few exceptions highlight cases where price or location dominates.
   
   #### 4. Booking Conversion by Micro-Market
-    #### How we built it:
+  How we built it:
     •	Added Stacked Column Chart.
-    •	X-axis: Micro_Market.
-    •	Y-axis: Booking Status (as percentage).
-    #### Insight:
+    •	X-axis: Count of Booking Status
+    •	Y-axis: Micro_Market.
+    • Legend: Booking_Status
+  Insight:
     •	Some micro-markets have high conversion rates (buyers finalize deals quickly).
     •	Others show low conversion due to high prices or poor infrastructure.
   
   #### 5. Configuration Demand
   How we built it:
-  •	Added Pie Chart (or Donut Chart).
-  •	Fields: Configuration vs Booking Count.
+    •	Added Pie Chart.
+    • Legend: Configuration
+    •	Values: Booking Count.
   Insight:
-  •	3BHK and 4BHK dominate demand.
-  •	Niche demand for 2BHK (budget buyers) and 5BHK (luxury premium segment).
+    •	3BHK and 4BHK dominate demand.
+    •	Niche demand for 2BHK (budget buyers) and 5BHK (luxury premium segment).
   
   #### 6. Sales Channel Efficiency
   How we built it:
-  •	Added 100% Stacked Column Chart.
-  •	X-axis: Sales_Channel.
-  •	Y-axis: Booking_Status distribution.
+    •	Added 100% Stacked Column Chart.
+    •	Y-axis: Sales_Channel.
+    •	X-axis: count of Booking_Status 
+    • Legend: Booking_Status
   Insight:
-  •	Certain channels (e.g., Online/Direct Sales) perform better than brokers.
-  •	Developers can invest more in the most efficient sales channels.
+    •	Certain channels (e.g., Online/Direct Sales) perform better than brokers.
+    •	Developers can invest more in the most efficient sales channels.
   
   #### 7. Quarterly Builder Contribution
   How we built it:
-  •	Added Matrix Table.
-  •	Rows: Developer_Name.
-  •	Columns: Year_Quarter.
-  •	Values: Sum(Ticket_Price_Cr).
+    •	Added Matrix Table.
+    •	Rows: Developer_Name.
+    •	Columns: Quarter_Number.
+    •	Values: Sum(Ticket_Price_Cr).
   Insight:
-  •	Reveals builder dominance by quarter.
-  •	Helps spot seasonal patterns and consistent performers.
+    •	Reveals builder dominance by quarter.
+    •	Helps spot seasonal patterns and consistent performers.
   
   #### 8. Possession Status Analysis
   How we built it:
-  •	Added Clustered Column Chart.
-  •	X-axis: Possession_Status (Ready vs Under Construction).
-  •	Y-axis: Booking_Status.
-  •	Legend: Buyer_Type.
+    •	Added Clustered Column Chart.
+    •	X-axis: Possession_Status.
+    •	Y-axis: count(Booking_Status).
+    •	Legend: Buyer_Type.
   Insight:
-  •	Ready-to-move properties attract NRI and end-user buyers.
-  •	Under-construction projects are popular with investors.
-  
+    •	Ready-to-move properties attract NRI and end-user buyers.
+    •	Under-construction projects are popular with investors.
+    
   #### 9. Geographical Insights
   How we built it:
-  •	Used Map Visualization.
-  •	Location: Micro_Market (or lat/long if available).
-  •	Size: Sum of Booking Count or Revenue.
+    •	Used Map Visualization.
+    •	Location: Micro_Market.
+    •	Size: count(Project_Name)
   Insight:
-  •	Certain zones of Bangalore show dense luxury housing projects.
-  •	Investors can focus on hotspots with strong demand.
+    •	Certain zones of Bangalore show dense luxury housing projects.
+    •	Investors can focus on hotspots with strong demand.
   #### 10. Top Performers (Matrix Table)
   How we built it:
-  •	Matrix Table created.
-  •	Rows: Developer_Name.
-  •	Values: Successful Booking Count and Total Revenue.
+    •	Matrix Table created.
+    •	Rows: Developer_Name.
+    •	Values: Successful Bookings and Total Revenue.
+ DAX Calculation:
+    Total Revenue = SUM('public luxury_house_data'[Ticket_Price_Cr])
+    Successful Bookings = 
+                            CALCULATE(
+                                COUNTROWS('public luxury_house_data'),
+                                'public luxury_house_data'[Booking_Status]= 1
+                            )
   Insight:
-  •	Top 5 builders contribute the largest share of market revenue.
-  •	They also maintain high booking success, proving strong brand reputation.
+    •	Top 5 builders contribute the largest share of market revenue.
+    •	They also maintain high booking success, proving strong brand reputation.
